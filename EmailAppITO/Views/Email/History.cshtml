@@ -1,0 +1,42 @@
+﻿@using EmailAppITO.ViewModels
+@model EmailIndexViewModel
+@{
+    ViewData["Title"] = "History";
+}
+
+
+<div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">@ViewData["Title"]</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>From email address: </th>
+                            <th>To email address: </th>
+                            <th>CC addresses: </th>
+                            <th>Subject:</th>
+                            <th>Importance:</th>
+                            <th>Email content: </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var email in Model.Emails)
+                        {
+                            <tr>
+                                <td>@email.FromEmailAddress</td>
+                                <td>@email.ToEmailAddress</td>
+                                <td>@email.CCEmailAdresses</td>
+                                <td>@email.Subject</td>
+                                <td>@email.Importance</td>
+                                <td>@email.EmailContent</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

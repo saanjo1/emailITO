@@ -1,0 +1,128 @@
+﻿@using EmailAppITO.ViewModels
+@model EmailManageViewModel
+@{
+
+    ViewData["Title"] = "Send your email";
+}
+<div class="modal" id="mailModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Fill the blank and send email</h5>
+                <button type="button" id="close" class="btn btn-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Email" asp-action="send_emails" method="POST" id="formId" class="formWidth">
+                    <input asp-for="Id" hidden="hidden" />
+                    <div class="form-group">
+                        <label>From:</label>
+                        <div class="input">
+                            <input asp-for="FromEmailAddress" id="email" type="email" name="FromEmailAddress" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>To:</label>
+                        <div class="input">
+                            <input asp-for="ToEmailAddress" id="email" type="email" name="ToEmailAddress" required />
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label>Carbon Copy Emails: </label>
+                        <div class="input">
+                            <input asp-for="CCEmailAdresses" id="CCEmailAdresses" type="text" name="CCEmailAdresses" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject:</label>
+                        <div class="input">
+                            <input asp-for="Subject" id="subject" type="text" name="Subject" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Importance:</label>
+                        <div class="input">
+                            <select asp-for="Importance" id="Importance" name="Importance">
+                                <option value="Low">Low</option>
+                                <option value="Normal">Normal</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email content:</label>
+                        <div class="input">
+                            <textarea asp-for="EmailContent" rows="10" cols="50" name="EmailContent" required></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div id="submitBtn">
+                    <input type="button" class="btn btn-primary" value="Send" name="Send">
+                </div>
+                <button type="button" id="close" class="btn btn-secondary" data-toggle="modal"
+                        data-target="#confirm-delete">
+                    Cancel
+                </button>
+            </div>
+            <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            Are you sure?
+                        </div>
+                        <div class="modal-body">
+                            Click on previous modal to continue with sending email.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="/lib/jquery/dist/jquery.email.multiple.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#mailModal").modal('show');
+        let data = []
+            $("#CCEmailAdresses").email_multiple({
+                data: data
+            })
+
+        $("#submitBtn").click(function() {
+            $("#formId").submit();
+            $("#mailModal").modal('hide');
+            location.reload();
+        });
+
+        $(".close").click(function() {
+            location.reload();
+        });
+
+        $("#close").click(function() {
+            location.reload();
+        });
+
+        $("#formId").validate({
+            rules: {
+                FromEmailAddress: {
+                    required: true,
+                    email: true
+                },
+                ToEmailAddress: {
+                    required: true,
+                    email: true,
+                }
+            }
+        });
+        });
+</script>
